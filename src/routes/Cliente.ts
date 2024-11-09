@@ -20,6 +20,8 @@ router.post('/agregar', async (req, res) => {
   }
 });
 
+
+
 // Ruta para eliminar un cliente por ID
 router.delete('/eliminar/:id', async (req, res) => {
   const { id } = req.params;
@@ -85,6 +87,21 @@ router.get('/buscar/id/:id', async (req, res) => {
       res.json(cliente);
     } else {
       res.status(404).json({ mensaje: 'Cliente no encontrado' });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error al buscar el cliente' });
+  }
+});
+
+router.get('/buscar/', async (req, res) => {
+  try {
+    const cliente = await prisma.client.findMany();
+
+    if (cliente) {
+      res.json(cliente);
+    } else {
+      res.status(404).json({ mensaje: 'Clientes no encontrado' });
     }
   } catch (error) {
     console.error(error);
